@@ -1,0 +1,397 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080914">
+<title>GAMES.UZ</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ background:#080914;
+ color:white;
+ font-family:Arial,sans-serif;
+ padding:18px 15px 90px;
+}
+header{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin-bottom:25px;
+}
+.logo{
+ font-size:27px;
+ font-weight:900;
+ letter-spacing:2px;
+ text-shadow:0 0 15px #00eaff;
+}
+.logo span{color:#00eaff}
+.coins{
+ background:#171d32;
+ padding:12px 16px;
+ border-radius:20px;
+ border:1px solid #00eaff;
+}
+.hero{
+ padding:27px 20px;
+ border-radius:25px;
+ background:linear-gradient(135deg,#25205a,#102e43);
+ box-shadow:0 0 25px #00eaff22;
+ border:1px solid #424b83;
+}
+.hero small{color:#00eaff;letter-spacing:3px}
+.hero h1{font-size:35px;line-height:1.1}
+.hero p{color:#c4cbe2;line-height:1.5}
+button{
+ cursor:pointer;
+ color:white;
+}
+.primary{
+ background:linear-gradient(90deg,#00eaff,#8957ff);
+ color:#080914;
+ padding:14px 20px;
+ border:0;
+ border-radius:13px;
+ font-weight:900;
+}
+.stats{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:9px;
+ margin-top:18px;
+}
+.stat{
+ background:#141a2e;
+ border:1px solid #303a5c;
+ padding:14px 5px;
+ text-align:center;
+ border-radius:15px;
+}
+.stat strong{
+ display:block;
+ color:#00eaff;
+ font-size:22px;
+}
+.stat span{font-size:11px;color:#9ca6c5}
+h2{font-size:20px;margin-top:27px}
+.games{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:12px;
+}
+.game{
+ text-align:left;
+ padding:17px;
+ min-height:165px;
+ border-radius:19px;
+ background:linear-gradient(145deg,#1c2542,#101323);
+ border:1px solid #39466c;
+ box-shadow:0 8px 20px #0008;
+}
+.game:active{transform:scale(.96)}
+.emoji{font-size:35px}
+.game h3{margin-bottom:7px}
+.game p{font-size:12px;color:#aeb8d5}
+.game-screen{
+ display:none;
+ background:#151c33;
+ padding:20px;
+ border:1px solid #43517a;
+ border-radius:20px;
+ text-align:center;
+ margin-top:20px;
+}
+.game-screen.active{display:block}
+.back{
+ background:#252e4a;
+ border:0;
+ padding:12px 18px;
+ border-radius:12px;
+}
+.play{
+ width:100%;
+ height:130px;
+ border-radius:18px;
+ background:linear-gradient(135deg,#164b63,#48266d);
+ border:1px solid #00eaff;
+ font-size:25px;
+ font-weight:bold;
+}
+.result{color:#00eaff;font-size:20px}
+.memory{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:8px;
+}
+.tile{
+ aspect-ratio:1;
+ border-radius:12px;
+ background:#293957;
+ border:1px solid #61729b;
+ font-size:25px;
+}
+nav{
+ position:fixed;
+ bottom:0;left:0;right:0;
+ display:flex;
+ justify-content:space-around;
+ padding:12px 5px 20px;
+ background:#101426ee;
+ border-top:1px solid #303a5c;
+ backdrop-filter:blur(15px);
+}
+nav button{
+ background:none;border:0;
+ color:#00eaff;
+ font-size:12px;
+}
+.screen{display:none}
+.screen.active{display:block}
+input{
+ background:#080914;
+ color:white;
+ border:1px solid #00eaff;
+ border-radius:10px;
+ padding:12px;
+ width:65%;
+}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="logo">GAMES<span>.UZ</span></div>
+ <div class="coins">🪙 <b id="coins">0</b></div>
+</header>
+
+<section id="home" class="screen active">
+ <div class="hero">
+  <small>YOUR MOBILE ARCADE</small>
+  <h1>O‘YINNI BOSHLА.<br>REKORDNI YANGILA.</h1>
+  <p>O‘yna, tangalar yig‘ va o‘z rekordingni yangila!</p>
+  <button class="primary" onclick="show('games')">O‘YINLARNI KO‘RISH →</button>
+ </div>
+ <div class="stats">
+  <div class="stat"><strong id="played">0</strong><span>O‘yinlar</span></div>
+  <div class="stat"><strong id="best">0</strong><span>Rekord</span></div>
+  <div class="stat"><strong id="coinStat">0</strong><span>Tangalar</span></div>
+ </div>
+ <h2>🔥 Mashhur o‘yinlar</h2>
+ <div class="games">
+  <button class="game" onclick="openGame('reaction')">
+   <div class="emoji">⚡</div><h3>Reaksiya</h3><p>Tezligingni sinab ko‘r!</p>
+  </button>
+  <button class="game" onclick="openGame('memory')">
+   <div class="emoji">🧠</div><h3>Xotira</h3><p>Bir xil belgilarni top!</p>
+  </button>
+  <button class="game" onclick="openGame('tap')">
+   <div class="emoji">👆</div><h3>Tap Rush</h3><p>15 soniyada ko‘proq bos!</p>
+  </button>
+ </div>
+</section>
+
+<section id="games" class="screen">
+ <h2>🎮 Barcha o‘yinlar</h2>
+ <div class="games">
+  <button class="game" onclick="openGame('reaction')">⚡<h3>Reaksiya</h3><p>Signalni kut!</p></button>
+  <button class="game" onclick="openGame('memory')">🧠<h3>Xotira</h3><p>Juftlarni top!</p></button>
+  <button class="game" onclick="openGame('tap')">👆<h3>Tap Rush</h3><p>Tez bos!</p></button>
+ </div>
+</section>
+
+<section id="leader" class="screen">
+ <h2>🏆 Rekordlar</h2>
+ <div class="hero">
+  <p>Jami o‘yin: <b id="lplayed">0</b></p>
+  <p>Eng yaxshi natija: <b id="lbest">0</b></p>
+  <p>Tangalar: <b id="lcoins">0</b></p>
+ </div>
+</section>
+
+<section id="profile" class="screen">
+ <h2>👤 Profil</h2>
+ <div class="hero">
+  <p>O‘yinchi nomi</p>
+  <input id="name" placeholder="Ismingiz">
+  <button class="primary" onclick="saveName()">SAQLASH</button>
+  <p id="welcome">GAMES.UZ ga xush kelibsiz!</p>
+ </div>
+</section>
+
+<section id="play" class="screen">
+ <button class="back" onclick="show('games')">← Orqaga</button>
+
+ <div id="reaction" class="game-screen">
+  <h2>⚡ Tezkor reaksiya</h2>
+  <p>Yashil signal paydo bo‘lganda bosing!</p>
+  <button class="play" id="rbtn" onclick="reaction()">BOSHLASH</button>
+  <p class="result" id="rresult"></p>
+ </div>
+
+ <div id="memory" class="game-screen">
+  <h2>🧠 Xotira sinovi</h2>
+  <p>Bir xil belgilarni toping!</p>
+  <div class="memory" id="grid"></div>
+  <p class="result" id="mresult">0/6</p>
+  <button class="primary" onclick="startMemory()">QAYTA BOSHLASH</button>
+ </div>
+
+ <div id="tap" class="game-screen">
+  <h2>👆 Tap Rush</h2>
+  <p>15 soniyada qancha bosishingiz mumkin?</p>
+  <p class="result" id="timer">15 soniya | 0 bosish</p>
+  <button class="play" onclick="tap()">BOSHLASH</button>
+  <p id="tresult" class="result"></p>
+ </div>
+</section>
+
+<nav>
+ <button onclick="show('home')">🏠<br>Bosh sahifa</button>
+ <button onclick="show('games')">🎮<br>O‘yinlar</button>
+ <button onclick="show('leader')">🏆<br>Rekord</button>
+ <button onclick="show('profile')">👤<br>Profil</button>
+</nav>
+
+<script>
+let data=JSON.parse(localStorage.getItem('gamesuz')||'{"coins":0,"played":0,"best":0,"name":""}');
+function save(){
+ localStorage.setItem('gamesuz',JSON.stringify(data));
+ update();
+}
+function update(){
+ coins.textContent=data.coins;
+ coinStat.textContent=data.coins;
+ played.textContent=data.played;
+ best.textContent=data.best;
+ lplayed.textContent=data.played;
+ lbest.textContent=data.best;
+ lcoins.textContent=data.coins;
+ name.value=data.name;
+ welcome.textContent=data.name?'Xush kelibsiz, '+data.name+'!':'GAMES.UZ ga xush kelibsiz!';
+}
+function show(id){
+ document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ window.scrollTo(0,0);
+ update();
+}
+function openGame(id){
+ show('play');
+ document.querySelectorAll('.game-screen').forEach(x=>x.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ if(id==='memory')startMemory();
+ if(id==='reaction')resetReaction();
+ if(id==='tap')resetTap();
+}
+function reward(points,bonus=5){
+ data.played++;
+ data.coins+=bonus;
+ data.best=Math.max(data.best,points);
+ save();
+}
+function saveName(){
+ data.name=name.value.trim().slice(0,18);
+ save();
+ alert('Profil saqlandi!');
+}
+
+/* REAKSIYA */
+let state='idle',startTime=0,wait;
+function resetReaction(){
+ clearTimeout(wait);
+ state='idle';
+ rbtn.textContent='BOSHLASH';
+ rresult.textContent='';
+}
+function reaction(){
+ if(state==='idle'||state==='done'){
+  state='wait';
+  rbtn.textContent='KUTING...';
+  rresult.textContent='';
+  wait=setTimeout(()=>{
+   state='ready';
+   startTime=performance.now();
+   rbtn.textContent='HOZIR BOSING!';
+  },1000+Math.random()*3000);
+ }else if(state==='wait'){
+  clearTimeout(wait);
+  state='done';
+  rbtn.textContent='QAYTA URINISH';
+  rresult.textContent='Juda erta! Yana urinib ko‘ring.';
+ }else{
+  let ms=Math.round(performance.now()-startTime);
+  state='done';
+  rbtn.textContent='QAYTA URINISH';
+  rresult.textContent=ms+' ms!';
+  reward(Math.max(1,1000-ms),8);
+ }
+}
+
+/* XOTIRA */
+let symbols=['🚀','🎮','👾','💎','⚡','🪐'];
+let deck=[],opened=[],matched=0,locked=false;
+function startMemory(){
+ deck=[...symbols,...symbols].sort(()=>Math.random()-.5);
+ opened=[];matched=0;locked=false;
+ grid.innerHTML='';
+ deck.forEach((s,i)=>{
+  let b=document.createElement('button');
+  b.className='tile';b.textContent='❔';
+  b.onclick=()=>flip(i,b);
+  grid.appendChild(b);
+ });
+ mresult.textContent='0/6';
+}
+function flip(i,b){
+ if(locked||opened.some(x=>x.i===i)||b.classList.contains('open'))return;
+ b.textContent=deck[i];b.classList.add('open');
+ opened.push({i,b});
+ if(opened.length===2){
+  if(deck[opened[0].i]===deck[opened[1].i]){
+   matched++;opened=[];
+   mresult.textContent=matched+'/6';
+   if(matched===6){
+    mresult.textContent='🎉 G‘ALABA!';
+    reward(600,15);
+   }
+  }else{
+   locked=true;
+   setTimeout(()=>{
+    opened.forEach(x=>{x.b.textContent='❔';x.b.classList.remove('open')});
+    opened=[];locked=false;
+   },700);
+  }
+ }
+}
+
+/* TAP RUSH */
+let count=0,seconds=15,running=false,interval;
+function resetTap(){
+ clearInterval(interval);
+ count=0;seconds=15;running=false;
+ timer.textContent='15 soniya | 0 bosish';
+ tresult.textContent='';
+}
+function tap(){
+ if(!running){
+  running=true;count=0;seconds=15;
+  interval=setInterval(()=>{
+   seconds--;
+   timer.textContent=seconds+' soniya | '+count+' bosish';
+   if(seconds<=0){
+    clearInterval(interval);running=false;
+    tresult.textContent='Natija: '+count;
+    reward(count,10);
+   }
+  },1000);
+  return;
+ }
+ count++;
+ timer.textContent=seconds+' soniya | '+count+' bosish';
+}
+update();
+</script>
+</body>
+</html>
